@@ -231,3 +231,12 @@ name starts with `trust-but-verify:`, for example `trust-but-verify:verify`.
 In an autonomous run, stop for only four things: a step git cannot undo, a security-sensitive
 change, a side effect others will see (merge, push, publish, send), or a plan so broken that
 every path is a guess.
+
+---
+
+Credit: some ideas come from two skill kits, both under the MIT license.
+- ponytail by Dietrich Gebert (github.com/DietrichGebert/ponytail): the "question the need" steps
+  and the "never cut" list.
+- superpowers by Jesse Vincent (github.com/obra/superpowers): write the test first and watch it
+  fail; no "should work" without a check; no performative agreement with a review; stop after
+  repeated failed fixes; the four things that stop an autonomous run.

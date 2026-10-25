@@ -122,9 +122,16 @@ words.
 
 ## Credit
 
-Some ideas in verify and audit come from [ponytail](https://github.com/DietrichGebert/ponytail)
-by Dietrich Gebert (MIT license). Its ladder for asking whether code needs to exist at all is
-close to the "question the need" step in how-we-build.
+This kit adapts ideas and some wording from two MIT-licensed skill kits. Their license notices
+are in [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md).
+
+- [ponytail](https://github.com/DietrichGebert/ponytail) by Dietrich Gebert: the "question the
+  need" steps and the "never cut" list in how-we-build, and the review and audit methods in
+  verify and audit.
+- [superpowers](https://github.com/obra/superpowers) by Jesse Vincent: in how-we-build, writing
+  the test first and watching it fail, no "should work" without a check, no performative
+  agreement with a review, stopping after repeated failed fixes, and the four things that stop
+  an autonomous run.
 
 ## License
 
