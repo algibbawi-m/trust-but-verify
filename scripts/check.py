@@ -5,6 +5,7 @@ Run: python3 scripts/check.py
 It fails when:
   - a made file differs from what scripts/build.py would make;
   - two skills ship a script with the same name, and the copies differ;
+  - a skill's frontmatter has an unquoted value that YAML would misread;
   - a file or a commit holds an email address, a home-folder path or a key-like string;
   - a file or a commit holds a word from the private list at .git/info/private-terms.
 Git never pushes .git/info, so the private list stays on the machine that wrote it.
@@ -80,6 +81,22 @@ def check_made_files():
     return problems
 
 
+def check_skill_frontmatter():
+    """In an unquoted YAML value, ": " starts a new key and " #" starts a comment."""
+    problems = []
+    for path in sorted(ROOT.glob("skills/*/SKILL.md")):
+        head = path.read_text().split("---\n")[1]
+        for line in head.splitlines():
+            key, _, value = line.partition(": ")
+            if value[:1] in "\"'" or not value:
+                continue
+            for bad, meaning in [(": ", "a new key"), (" #", "a comment")]:
+                if bad in value:
+                    problems.append(f"{path.relative_to(ROOT)}: frontmatter '{key}' holds '{bad}', "
+                                    f"which YAML reads as {meaning}. Use a dash instead")
+    return problems
+
+
 def check_shared_scripts():
     """Each skill carries its own copy of a shared script. The copies must stay the same."""
     problems = []
@@ -133,7 +150,7 @@ def main():
     terms = private_terms()
     if terms is None:
         print(f"Note: no private word list at .git/info/private-terms. Only general patterns checked.")
-    problems = check_made_files() + check_shared_scripts() + check_files(terms) + check_commits(terms)
+    problems = check_made_files() + check_skill_frontmatter() + check_shared_scripts() + check_files(terms) + check_commits(terms)
     for problem in problems:
         print(problem)
     if problems:

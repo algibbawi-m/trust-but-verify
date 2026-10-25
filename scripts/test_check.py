@@ -103,6 +103,13 @@ class CheckTest(unittest.TestCase):
         self.assertEqual(result.returncode, 1)
         self.assertIn("find_secrets.py", result.stdout)
 
+    def test_colon_in_skill_description_fails(self):
+        skill = self.repo / "skills" / "audit" / "SKILL.md"
+        skill.write_text(skill.read_text().replace("end to end and", "end to end: and", 1))
+        result = self.check()
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("skills/audit/SKILL.md", result.stdout)
+
     def test_personal_email_in_commit_fails(self):
         self.plant("Nothing private here.\n")
         run(["git", "-c", "user.name=Alex", "-c", "user.email=alex@example.org",
