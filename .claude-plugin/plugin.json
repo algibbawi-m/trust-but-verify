@@ -1,0 +1,19 @@
+{
+  "name": "trust-but-verify",
+  "version": "0.1.0",
+  "description": "Two skills for people who direct an AI coding tool but do not read the code: how-we-build (a safe, sized way to change software) and design-pass (judge how an app looks with fresh eyes, not passing checks).",
+  "author": {
+    "name": "The trust-but-verify authors"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/algibbawi-m/trust-but-verify",
+  "repository": "https://github.com/algibbawi-m/trust-but-verify",
+  "keywords": [
+    "non-programmers",
+    "workflow",
+    "testing",
+    "code-review",
+    "design-review",
+    "red-team"
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "name": "trust-but-verify",
+  "owner": {
+    "name": "The trust-but-verify authors"
+  },
+  "description": "The trust-but-verify kit.",
+  "plugins": [
+    {
+      "name": "trust-but-verify",
+      "source": "./",
+      "description": "Two skills for people who direct an AI coding tool but do not read the code: how-we-build (a safe, sized way to change software) and design-pass (judge how an app looks with fresh eyes, not passing checks).",
+      "category": "productivity"
+    }
+  ]
+}
