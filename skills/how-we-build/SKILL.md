@@ -164,10 +164,10 @@ break for users, including data it could destroy or expose.
 ## 6. Review
 
 - Standard: re-read your diff against the goal once before you commit.
-- Heavy: give the `reviewer` helper the goal, the plan and the diff — never the story of the
-  build. Ask for findings in three ranks: fix now, fix before merge, note for later. Send the
-  first two ranks to one `builder` fix round, run your checks, then stop. Wording-only findings
-  never block.
+- Heavy: run the review in the `verify` skill, steps 1–3. Without it, give the `reviewer`
+  helper the goal, the plan and the diff — never the story of the build. Ask for findings in
+  three ranks: fix now, fix before merge, note for later. Send the first two ranks to one
+  `builder` fix round, run your checks, then stop. Wording-only findings never block.
 - When you receive review, check each finding in the code before you act on it. Push back with
   reasons when it is wrong. No "great point".
 
@@ -224,8 +224,9 @@ judges the work and not the story of how it was made.
 
 The kit's helpers set their effort in their files. A fresh subagent without a file uses whatever
 effort your tool gives it. Never start a helper to re-check routine work; your checks in step 5
-do that. For how a UI looks, use the `design-pass` skill (`trust-but-verify:design-pass` when
-installed as a plugin).
+do that. For how a UI looks, use the `design-pass` skill. To review changes on demand, before
+they ship, use `verify`; to review a whole app, use `audit`. As a Claude Code plugin, each skill
+name starts with `trust-but-verify:`, for example `trust-but-verify:verify`.
 
 In an autonomous run, stop for only four things: a step git cannot undo, a security-sensitive
 change, a side effect others will see (merge, push, publish, send), or a plan so broken that

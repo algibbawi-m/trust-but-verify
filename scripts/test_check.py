@@ -96,6 +96,13 @@ class CheckTest(unittest.TestCase):
         self.assertEqual(result.returncode, 1)
         self.assertIn("trust_but_verify_reviewer.toml", result.stdout)
 
+    def test_shared_script_copies_that_differ_fail(self):
+        script = self.repo / "skills" / "audit" / "scripts" / "find_secrets.py"
+        script.write_text(script.read_text() + "# drift\n")
+        result = self.check()
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("find_secrets.py", result.stdout)
+
     def test_personal_email_in_commit_fails(self):
         self.plant("Nothing private here.\n")
         run(["git", "-c", "user.name=Alex", "-c", "user.email=alex@example.org",

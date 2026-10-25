@@ -4,6 +4,7 @@ Run: python3 scripts/check.py
 
 It fails when:
   - a made file differs from what scripts/build.py would make;
+  - two skills ship a script with the same name, and the copies differ;
   - a file or a commit holds an email address, a home-folder path or a key-like string;
   - a file or a commit holds a word from the private list at .git/info/private-terms.
 Git never pushes .git/info, so the private list stays on the machine that wrote it.
@@ -79,6 +80,21 @@ def check_made_files():
     return problems
 
 
+def check_shared_scripts():
+    """Each skill carries its own copy of a shared script. The copies must stay the same."""
+    problems = []
+    copies = {}
+    for path in sorted(ROOT.glob("skills/*/scripts/*")):
+        copies.setdefault(path.name, []).append(path)
+    for name, paths in copies.items():
+        first = paths[0]
+        for other in paths[1:]:
+            if other.read_bytes() != first.read_bytes():
+                problems.append(f"{other.relative_to(ROOT)}: differs from {first.relative_to(ROOT)}. "
+                                "Make the copies the same")
+    return problems
+
+
 def check_files(terms):
     problems = []
     listed = git("ls-files", "--cached", "--others", "--exclude-standard").stdout.splitlines()
@@ -117,7 +133,7 @@ def main():
     terms = private_terms()
     if terms is None:
         print(f"Note: no private word list at .git/info/private-terms. Only general patterns checked.")
-    problems = check_made_files() + check_files(terms) + check_commits(terms)
+    problems = check_made_files() + check_shared_scripts() + check_files(terms) + check_commits(terms)
     for problem in problems:
         print(problem)
     if problems:

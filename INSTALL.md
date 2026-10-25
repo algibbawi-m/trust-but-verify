@@ -20,7 +20,7 @@ words before you do it.
 
 ## 2. Claude Code
 
-1. Tell the person: "I will add this kit as a plugin. It gives me two skills and five helpers. It
+1. Tell the person: "I will add this kit as a plugin. It gives me four skills and five helpers. It
    changes nothing in your projects." Wait for yes.
 2. Run these two commands:
 
@@ -61,7 +61,8 @@ words before you do it.
 ## 4. Another tool
 
 1. Find the folder your tool reads skills from. If you cannot find it, ask the person.
-2. Copy `skills/how-we-build/` and `skills/design-pass/` into it, after a yes.
+2. Copy the four folders in `skills/` into it, after a yes: `how-we-build`, `verify`, `audit`
+   and `design-pass`.
 3. Skip the helpers. Each skill can start a fresh helper from its own `references/roles/` folder.
    If your tool cannot start helpers, the skill does that step itself and tells the person.
 
@@ -72,6 +73,11 @@ Say it in your own plain words:
 - **how-we-build** starts when they ask to fix, add or change something in an app. It sizes the
   task, stops before anything that cannot be undone, writes tests first, and ends with what it
   checked and what it did not.
+- **verify** starts when they ask to check work before it ships. A fresh helper reviews the
+  changes; the AI checks each finding in the code and asks which ones to fix. It changes nothing
+  until they say yes.
+- **audit** starts when they take over an app, or ask what is wrong with one. It reviews the
+  whole app area by area and writes one ranked report. It changes no code.
 - **design-pass** starts when they say an app looks wrong or ask for a design review. It writes
   down a visual standard first, then has fresh helpers judge the pages against it.
 - If a skill with the same name was already installed, say so. They may want to remove one.

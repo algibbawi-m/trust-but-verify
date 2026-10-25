@@ -1,6 +1,6 @@
 # trust-but-verify
 
-Two skills for people who build software by directing an AI coding tool, but who do not read the
+Four skills for people who build software by directing an AI coding tool, but who do not read the
 code. They work in **Claude Code** and in **Codex**.
 
 You judge your app by what it does for the people who use it. These skills make the AI work in a
@@ -41,6 +41,35 @@ It starts when you ask the AI to fix, add or change something in a software proj
 - **It stops guessing.** After two failed fixes that rest on the same belief, it tests that
   belief before it tries again.
 
+### verify
+
+It starts when you ask the AI to check work before it ships: "review my changes", "is this safe to
+merge".
+
+- **Whoever built the change never judges it.** A fresh reviewer gets the goal and the changes,
+  never the story of how they were built.
+- **It runs the checks itself**, and scans the changes for keys and passwords without printing
+  them.
+- **Every finding is checked in the code** before you see it. Wrong findings are dropped, with
+  the reason.
+- **It proves fake tests.** It breaks the behaviour in a throwaway copy. If the test still
+  passes, the test guards nothing.
+- **It changes nothing until you pick** which findings to fix.
+
+### audit
+
+It starts when you take over an app that an AI or someone else built: "audit this app", "what is
+wrong with it", "what can I delete".
+
+- **It maps the app first**: what it is for, how it runs, where its data and secrets live.
+- **It splits the app into areas**, and a fresh reviewer reads each one. It tells you the count
+  before it starts more than one.
+- **It scans the whole history for secrets.** A key that was committed once is exposed, even if
+  a later commit deleted it.
+- **It ranks findings by what a person using the app would feel**, and lists code and
+  dependencies that could be cut.
+- **It changes no code.** You get one report, and each fix becomes its own task.
+
 ### design-pass
 
 It starts when you say the app looks wrong, or ask for a design review.
@@ -56,7 +85,9 @@ It starts when you say the app looks wrong, or ask for a design review.
 ## How it fits together
 
 ```
-skills/how-we-build ──► planner, builder, reviewer     (Heavy tasks)
+skills/how-we-build ──► planner, builder, reviewer     (Heavy tasks; review runs through verify)
+skills/verify       ──► reviewer
+skills/audit        ──► reviewer, one per area
 skills/design-pass  ──► design-lead, reviewer, red-team, builder
 
 roles/*.md  ── the one place each helper is written
@@ -78,13 +109,20 @@ similar) sets its own steps or checks, the skills follow those.
 1. Edit the skill in `skills/`, or the helper in `roles/`. Do not edit the made files in
    `agents/`, `codex-agents/` or `skills/*/references/roles/`.
 2. Run `python3 scripts/build.py`.
-3. Run `python3 scripts/check.py`. It fails if a made file is out of date, or if a file or commit
-   holds an email address, a home-folder path, or a key.
+3. Run `python3 scripts/check.py`. It fails if a made file is out of date, if the skills' copies
+   of a shared script differ, or if a file or commit holds an email address, a home-folder path,
+   or a key.
 4. Run `python3 -m unittest scripts/test_check.py`.
 
 To keep your own private words out of the repo, list them one per line in
 `.git/info/private-terms`. Git never pushes that folder. `check.py` then fails on any of those
 words.
+
+## Credit
+
+Some ideas in verify and audit come from [ponytail](https://github.com/DietrichGebert/ponytail)
+by Dietrich Gebert (MIT license). Its ladder for asking whether code needs to exist at all is
+close to the "question the need" step in how-we-build.
 
 ## License
 

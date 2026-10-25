@@ -8,7 +8,7 @@
     {
       "name": "trust-but-verify",
       "source": "./",
-      "description": "Two skills for people who direct an AI coding tool but do not read the code: how-we-build (a safe, sized way to change software) and design-pass (judge how an app looks with fresh eyes, not passing checks).",
+      "description": "Four skills for people who direct an AI coding tool but do not read the code: how-we-build (a safe, sized way to change software), verify (a fresh review of changes before they ship), audit (one ranked review of a whole app) and design-pass (judge how an app looks with fresh eyes, not passing checks).",
       "category": "productivity"
     }
   ]

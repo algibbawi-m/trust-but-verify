@@ -13,7 +13,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 MADE_DIRS = ["agents", "codex-agents", "skills/how-we-build/references/roles",
-             "skills/design-pass/references/roles"]
+             "skills/design-pass/references/roles", "skills/verify/references/roles",
+             "skills/audit/references/roles"]
 READ_ONLY_LINE = "Do not create, edit or delete files."
 
 
