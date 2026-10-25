@@ -12,6 +12,9 @@ anyone else uses it." / "Not safe to use until 1–3 are fixed.">
 **Scope:** <what was read>. **Not read:** <areas or files no reviewer read, or "none">.
 <If needed: "Not a fresh review: <reason>.">
 
+**Commit read:** `<short hash>`. **Model:** <the model that ran this audit, or "unknown">.
+**Last audit:** <date, commit and model, or "none">.
+
 ## 1. What this app is
 
 - **For:** <who uses it, to do what>
@@ -26,11 +29,22 @@ anyone else uses it." / "Not safe to use until 1–3 are fixed.">
 |---|---|---|---|---|
 | <name> | <n> | <n> | <sign-in / money / personal data / writes, or no> | <1> |
 
+## Since the last audit
+
+<Leave this section out on a first audit.>
+
+- **Fixed:** <n> — <titles, one line each>
+- **Still open:** <n> — <their numbers in this report>
+- **Gone:** <n> — <the code they named no longer exists>
+- **New:** <n> — <their numbers in this report>
+- **Growth:** <lines then> → <lines now>; <the areas that are new or grew most>
+
 ## 2. Findings
 
 ### Fix now
 
-1. **<What goes wrong, in a few words>** — `path:line`
+1. **<What goes wrong, in a few words>** — `path:line` <on a repeat audit: (new) or (open since
+   <date>)>
    - **What goes wrong:** <the concrete case, as the person using the app meets it>
    - **Fix:** <the smallest fix; prefer deleting code>
    - **If we skip it:** <the cost>

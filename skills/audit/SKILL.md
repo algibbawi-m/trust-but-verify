@@ -1,6 +1,6 @@
 ---
 name: audit
-description: Reviews a whole software app end to end and writes one ranked report, for someone who takes over an app that an AI or another person built. It maps what the app is for and how to run it, runs its checks, sends each area to a fresh reviewer, checks every finding in the code, and ranks the findings by what a person using the app would feel — secrets and personal data, security holes, tests that test nothing, dead code, unneeded dependencies, and code that should never have been written. Changes no code. Use when the user says "audit this app", "review the whole codebase", "I inherited this project", "an AI built this, what's wrong with it", "is this app safe to launch", "health check this repo", or "what can I delete". Not for only the recent changes (that is verify), not for fixing (that is how-we-build), and not for instruction files such as CLAUDE.md or AGENTS.md, or for documents.
+description: Reviews a whole software app end to end and writes one ranked report: secrets and personal data, security holes, fake tests, dead code, unneeded dependencies. Use when someone takes over an app that an AI or another person built, when a newer, more capable model comes out, or every so often as the app grows. It maps the app, runs its checks, sends each area to a fresh reviewer, checks every finding in the code, and compares with the last audit. Changes no code. Use when the user says "audit this app", "review the whole codebase", "I inherited this project", "an AI built this, what's wrong with it", "is this app safe to launch", "health check this repo", "what can I delete", "a new model is out, audit the app again", or "it's been a while, audit it again". Not for only the recent changes (that is verify), not for fixing (that is how-we-build), and not for instruction files such as CLAUDE.md or AGENTS.md, or for documents.
 ---
 
 # Audit
@@ -31,6 +31,17 @@ apply here in full.
 Audit what the user names — a folder, a part of the app — or else the whole repository. Record
 `git status`. If the folder is not a git repository, say so; you can still audit it, but there is
 no history to scan.
+
+**Earlier audits.** Look for earlier reports: `AUDIT-*.md` at the repository root, or the
+project's records or docs folder. If there is one, this is a repeat audit. Note the newest
+report's date, the commit it read, and the model that ran it.
+
+- Never give an earlier report to a reviewer. It tells them where to look and what to skip. A
+  newer model is worth running because it finds what the last one missed.
+- Read the whole app again by default. Code that did not change can still hold a bug that the
+  last model missed.
+- If the user wants a cheaper run, go deep on the areas changed since that commit
+  (`git diff --stat <commit>`), plus every high-risk area. List the other areas under "Not read".
 
 ## 1. Map the app
 
@@ -110,6 +121,9 @@ area. It does not get other reviewers' findings. Choose the helper in this order
 - **A secret:** confirm it with `find_secrets.py`; check whether its commit was pushed
   (`git branch -r --contains <commit>`).
 - **The same root cause found by two reviewers:** one finding.
+- **A repeat audit:** compare with the earlier report. Mark each old finding fixed, still open,
+  or gone (the code it named no longer exists). Mark each finding the old report lacks as new.
+  Confirm "fixed" in the code, never from a commit message.
 - Keep, downgrade or drop each finding. Write one line for each dropped finding, with the reason.
 
 ## 5. Rank by what a person using the app would feel
@@ -135,11 +149,14 @@ repository root. Do not commit it. Run `git status` again: the report must be th
 
 Then tell the user, in plain words and in this order:
 
-1. The verdict in one sentence.
+1. The verdict in one sentence. For a repeat audit, add: "Since <date>: <n> fixed, <n> still
+   open, <n> new."
 2. The top findings (at most five), one line each, as the person using the app meets them.
-3. Where the report is.
+3. Where the report is. The next audit compares with it, so keep it: commit it, or leave it there.
 4. What you did not check.
-5. One question: which finding to fix first. Each fix is its own `how-we-build` task.
+5. When to run the audit again: when a more capable model comes out, or after a large new
+   feature or about a third more code than this audit read.
+6. One question: which finding to fix first. Each fix is its own `how-we-build` task.
 
 If the project has no instruction file that names its checks, also offer `how-we-build`'s
 project card, filled from the map, as its own task.

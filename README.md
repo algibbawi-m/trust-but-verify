@@ -69,6 +69,8 @@ wrong with it", "what can I delete".
 - **It ranks findings by what a person using the app would feel**, and lists code and
   dependencies that could be cut.
 - **It changes no code.** You get one report, and each fix becomes its own task.
+- **Run it again** when a more capable model comes out, or as the app grows. It compares with
+  the last report: what was fixed, what is still open, and what is new.
 
 ### design-pass
 
